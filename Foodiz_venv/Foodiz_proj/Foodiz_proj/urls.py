@@ -15,9 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from Foodiz_app.views import get_recipies
+from Foodiz_app.views import get_recipies, create_recipe, update_recipe, get_category
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("Recipe/",get_recipies),
+    path("recipe/",get_recipies, name = "get_recipies"),
+    path("create_recipe/",create_recipe, name = "create_recipe"),
+    path("update_recipe/<int:recipe_id>",update_recipe, name = "update_recipe"),
+    path("category_list_page/",get_category, name = "uget_category"),
 ]
+
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

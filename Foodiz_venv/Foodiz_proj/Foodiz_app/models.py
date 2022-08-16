@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 from email.mime import image
 from pyexpat import model
 from unicodedata import category
@@ -33,43 +34,42 @@ class Profile(models.Model):
     profile_pic = models.ImageField(upload_to="media/",null=True ,blank=True)
     # Relations    
     user = models.OneToOneField(User,on_delete=models.CASCADE)
-
+    
     def __str__(self):
-        return f"{self.user.username}:"
+        return f"{self.user.username}"
 
-
-class Category(models.Model):
-    category_name = models.CharField(max_length=255)
-    
-    
-    #table name
-    def __str__(self) :
-        return self.category_name
     
     
 class Ingredient (models.Model):
     ingredient_name = models.CharField(max_length=255)
     
-    
-    
     #table name
     def __str__(self) :
         return self.ingredient_name
+    
+
+class Category(models.Model):
+    category_name = models.CharField(max_length=255)
+    ingredient =models.ManyToManyField(Ingredient, related_name='ingredient')
+    
+    #table name
+    def __str__(self) :
+        return self.category_name
 
 
 class Recipe (models.Model):
     food_name = models.CharField(max_length=255)
     recipe = models.TextField()
-    image = models.ImageField(upload_to="media/",null=True ,blank=True)
+    image = models.ImageField( blank=True, null=True)
     
     # Relastions
     profile = models.ForeignKey(Profile,on_delete=models.CASCADE,related_name='recipe')
-    ingredient = models.ManyToManyField(Ingredient,related_name='ingredient')
+    ingredient = models.ManyToManyField(Ingredient,related_name='Recipe_ingredient')
     category = models.ManyToManyField(Category, related_name='category')
     
     
      #table name
     def __str__(self) :
-        return f"{self.food_name}"
+        return f"{self.food_name} by {self.profile.user.username}"
 
 

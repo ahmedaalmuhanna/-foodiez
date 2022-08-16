@@ -1,0 +1,20 @@
+
+
+{%extends 'base.html' %}
+{% load crispy_forms_tags %} 
+
+
+{%block title%}Create Recipe{%endblock title%}
+
+{%block content%}
+
+
+
+
+<form action="{% url 'create_recipe' %}" method="POST" enctype="multipart/form-data" >
+{% csrf_token%}
+{{form|crispy}}
+
+<input type="submit" value="Create Recipe"/>
+</form>
+{%endblock content%}

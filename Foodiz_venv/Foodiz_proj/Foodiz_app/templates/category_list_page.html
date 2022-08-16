@@ -1,0 +1,30 @@
+{%extends 'base.html'%}
+{%load static%}
+
+
+
+{%block title%} Category & Ingredient{%endblock title%}
+{%block content%}
+
+{%for cate in category%}
+<tr>
+
+    <td>Name : {{cate.category_name}}</td>
+    <br>
+
+    {% for ing in cate.ingredient.all %}
+    
+    <td>{{ing.ingredient_name}}<br></td>
+
+    {% endfor %}
+    
+    <br>
+    <br>
+    <br>
+    
+
+</tr>
+{% endfor %}
+test
+{%endblock content%}
+
