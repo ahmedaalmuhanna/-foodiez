@@ -3,16 +3,15 @@
 {%extends 'base.html' %}
 
 
-
 {%block title%}Create Recipe{%endblock title%}
 
 {%block content%}
 
 
-<form action="{% url 'update_recipe' recipe_id=recipe.id %}" method="POST">
+<form action="{% url 'update_recipe' recipe_id=recipe.id %}" method="POST" enctype="multipart/form-data">
 
 
-{{form}}
+{{form.as_p}}
 {% csrf_token%}
 <input type="submit" name="UPDATE">
 

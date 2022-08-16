@@ -3,8 +3,8 @@
 # from multiprocessing import context
 from multiprocessing import context
 from django.shortcuts import render, redirect
-from django.contrib.auth import login
-from .forms import RecipeForm, RegisterForm
+from django.contrib.auth import login, authenticate
+from .forms import RecipeForm, RegisterForm, LoginForm
 # from rest_framework.generics import ListAPIView,RetrieveAPIView,UpdateAPIView,DestroyAPIView,CreateAPIView
 from .models import  Recipe, Ingredient, Category
 
@@ -14,6 +14,25 @@ from .models import  Recipe, Ingredient, Category
 # Create your views here.
 
 ############### USER ###############
+
+def login_user(request):
+    form = LoginForm()
+    if request.method =="POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            authenticate_user = authenticate(username = username, password = password )
+            login(request, authenticate_user)
+            return redirect('get_recipies')
+    context = {
+        "form" : form,
+        # "user" : authenticate_user
+    }
+
+    return render(request, 'login_page.html', context)
+
+
 def register_user(request):
     form = RegisterForm()
     if request.method == "POST":
@@ -24,6 +43,11 @@ def register_user(request):
             user.save()
             
             login(request,user)
+            return redirect('get_recipies')
+    context ={
+        "form" : form
+    }
+    return render(request,'register_page.html',  context)
     
 
 
@@ -56,8 +80,6 @@ def create_recipe(request):
         if form.is_valid():
             recipe = form.save(commit= False)
             recipe.profile = request.user
-    
-            
             recipe.save()
             return redirect('get_recipies')
         
@@ -71,9 +93,10 @@ def create_recipe(request):
 # Update Recipe
 def update_recipe(request, recipe_id):
     recipe = Recipe.objects.get(id = recipe_id)
-    form = RecipeForm(request.POST, request.FILES)
+    print("recipe: ",recipe)
+    form = RecipeForm(instance= recipe)
     if request.method == "POST":
-        form =RecipeForm(request.POST, instance= recipe)
+        form =RecipeForm(request.POST, request.FILES,instance= recipe)
         if form.is_valid():
             form.save()
             return redirect("get_recipies")

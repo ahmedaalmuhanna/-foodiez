@@ -12,6 +12,7 @@ class RecipeForm(forms.ModelForm):
     class Meta:
         model = Recipe
         fields = ['food_name', 'recipe', 'image', 'category','ingredient']
+
         
 class RegisterForm(forms.ModelForm):
     class Meta:
@@ -20,3 +21,9 @@ class RegisterForm(forms.ModelForm):
         widgets = {
             "password": forms.PasswordInput(),
         }
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField(required=True)
+    password = forms.CharField(required=True,)
+    widgets={"password": forms.PasswordInput()}
