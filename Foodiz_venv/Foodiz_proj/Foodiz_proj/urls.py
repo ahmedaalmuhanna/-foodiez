@@ -29,7 +29,8 @@ urlpatterns = [
     path("login/",login_user, name ="login_user")
 ]
 
-
+# should use a better naming pattern for recipe crud
+# spelling issues with path name arguments,
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

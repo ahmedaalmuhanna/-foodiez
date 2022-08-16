@@ -1,7 +1,7 @@
 
 # from cProfile import Profile
 # from multiprocessing import context
-from multiprocessing import context
+from multiprocessing import context # what is this import for, where are you using this
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from .forms import RecipeForm, RegisterForm, LoginForm
@@ -9,7 +9,11 @@ from .forms import RecipeForm, RegisterForm, LoginForm
 from .models import  Recipe, Ingredient, Category
 
 
-
+"""
+Remove Unused imports
+Why is context being imported from multiprocessing and why is there a commented import statement from rest_framework
+KEEP YOUR CODE CLEAN!
+"""
 
 # Create your views here.
 
@@ -29,7 +33,7 @@ def login_user(request):
         "form" : form,
         # "user" : authenticate_user
     }
-
+    # remove used import in the context
     return render(request, 'login_page.html', context)
 
 
@@ -54,7 +58,7 @@ def register_user(request):
 
 ############### Recipies ###############
 # list Views
-def get_recipies(request):
+def get_recipies(request): # function spelling issue
     recipes =  Recipe.objects.all()
     context = {"recipes" : recipes}
     return render(request, "home_page.html", context)
@@ -63,11 +67,11 @@ def get_recipies(request):
 # # list of cato
 def get_category(request):
     category =  Category.objects.all()
-    test = Category.objects.get(id =8)
+    test = Category.objects.get(id =8) # remove unused queries
     # print(test.ingredient.is_value)
     context = {"category" : category}
     return render(request, "category_list_page.html", context)
-
+    # remove print statements and unused comments
 
 # ???????#
 # Create Recipe:    ## not working
@@ -79,7 +83,7 @@ def create_recipe(request):
         form = RecipeForm(request.POST, request.FILES)
         if form.is_valid():
             recipe = form.save(commit= False)
-            recipe.profile = request.user
+            recipe.profile = request.user # Recipe model is expecting a Profile instance, not a User instance, hence, why this is not working
             recipe.save()
             return redirect('get_recipies')
         
@@ -91,9 +95,11 @@ def create_recipe(request):
 
 
 # Update Recipe
+
+# dont forget to check for permissions in this case
 def update_recipe(request, recipe_id):
     recipe = Recipe.objects.get(id = recipe_id)
-    print("recipe: ",recipe)
+    print("recipe: ",recipe) # remove print statement
     form = RecipeForm(instance= recipe)
     if request.method == "POST":
         form =RecipeForm(request.POST, request.FILES,instance= recipe)
@@ -102,7 +108,7 @@ def update_recipe(request, recipe_id):
             return redirect("get_recipies")
     context = {
         "form" : form,
-        "recipe" : recipe
+        "recipe" : recipe # since we are passing the recipe instance into the form, do we need the recipe instance in the context?
     }
     
-    return render(request, "Update_recipe.html", context)
+    return render(request, "Update_recipe.html", context) # template names should be lowercase

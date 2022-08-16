@@ -6,6 +6,9 @@ from .models import Recipe
 from django import forms
 from django.contrib.auth import get_user_model
 
+# Remove unused imports
+# Cleanup comments below
+
 User = get_user_model()
 # Recioe Form -- then creat a view
 class RecipeForm(forms.ModelForm):
@@ -25,5 +28,5 @@ class RegisterForm(forms.ModelForm):
 
 class LoginForm(forms.Form):
     username = forms.CharField(required=True)
-    password = forms.CharField(required=True,)
-    widgets={"password": forms.PasswordInput()}
+    password = forms.CharField(required=True,) # this currently allows the password to be visible
+    widgets={"password": forms.PasswordInput()} # this should be added into the password forms.Charfield(widgets={})

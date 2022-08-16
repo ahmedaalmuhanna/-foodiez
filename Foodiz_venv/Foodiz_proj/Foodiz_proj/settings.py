@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-     "Foodiz_app",
-     "crispy_forms",
+     "Foodiz_app", # apply better naming for both project and app, should be lower case
+     "crispy_forms", # update requirements.txt with this package install and pillow
 ]
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 

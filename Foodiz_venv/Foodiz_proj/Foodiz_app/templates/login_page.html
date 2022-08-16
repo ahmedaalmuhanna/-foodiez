@@ -9,7 +9,7 @@
 
 
 <form action="{% url 'login_user' %}" method ="POST" enctype="multipart/form-data">
-
+{% comment %} Why is there an enctype attribute in this form? the registration form in forms.py doesnt require an image {% endcomment %}
 {% csrf_token%}
 {{form|crispy}}
 

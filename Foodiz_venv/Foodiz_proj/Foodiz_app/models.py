@@ -5,6 +5,11 @@ from unicodedata import category
 from django.db import models
 
 
+# What are these imports for?
+# Be mindful of auto imports
+# Remove unused imports
+# Cleanup your code
+
 #  https://www.youtube.com/watch?v=VJo-LNav6rU // Django - Models + Relationships
 
 from django.contrib.auth.models import User
@@ -28,6 +33,8 @@ class Booking(models.Model):
 # Create your models here.
 
 
+# Remove the comments above 
+
 class Profile(models.Model):
     
     bio = models.TextField()
@@ -37,6 +44,8 @@ class Profile(models.Model):
     
     def __str__(self):
         return f"{self.user.username}"
+    
+    # could add a class method to get username for the profile owner, since I used you are trying to get repeatedly
 
     
     
@@ -64,8 +73,8 @@ class Recipe (models.Model):
     
     # Relastions
     profile = models.ForeignKey(Profile,on_delete=models.CASCADE,related_name='recipe')
-    ingredient = models.ManyToManyField(Ingredient,related_name='Recipe_ingredient')
-    category = models.ManyToManyField(Category, related_name='category')
+    ingredient = models.ManyToManyField(Ingredient,related_name='Recipe_ingredient') # dont push capital letters, use a better related name
+    category = models.ManyToManyField(Category, related_name='category') # should have a better related_name, will cause confusion when querying the Recipe from Category
     
     
      #table name

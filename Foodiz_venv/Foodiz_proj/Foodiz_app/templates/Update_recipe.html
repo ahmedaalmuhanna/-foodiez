@@ -12,8 +12,9 @@
 
 
 {{form.as_p}}
+{% comment %} Since you installed crispy forms, load the crispy tags first and then use it here, similar to how you implemented the form in the register page {% endcomment %}
 {% csrf_token%}
 <input type="submit" name="UPDATE">
-
+{% comment  %} name attribute for input should be value {% endcomment %}
 
 {%endblock content%}
