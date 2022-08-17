@@ -1,20 +1,22 @@
 
-# from cProfile import Profile
-# from multiprocessing import context
-from multiprocessing import context
+
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from .forms import RecipeForm, RegisterForm, LoginForm
-# from rest_framework.generics import ListAPIView,RetrieveAPIView,UpdateAPIView,DestroyAPIView,CreateAPIView
-from .models import  Recipe, Ingredient, Category
+from .models import  Recipe, Ingredient, Category, Profile
 
 
 
 
-# Create your views here.
+
 
 ############### USER ###############
+#Logout
+def logout_view(request):
+    logout(request)
+    return redirect("login_user")
 
+#Signin
 def login_user(request):
     form = LoginForm()
     if request.method =="POST":
@@ -33,6 +35,7 @@ def login_user(request):
     return render(request, 'login_page.html', context)
 
 
+# Signup
 def register_user(request):
     form = RegisterForm()
     if request.method == "POST":
@@ -43,7 +46,7 @@ def register_user(request):
             user.save()
             
             login(request,user)
-            return redirect('get_recipies')
+            return redirect('login_user')
     context ={
         "form" : form
     }
@@ -53,24 +56,46 @@ def register_user(request):
 
 
 ############### Recipies ###############
+
+#Creat Category
+def creat_category(request):
+    pass
+
+
+#Creat Ingredients
+def creat_ingredients(request):
+    pass
+
+
 # list Views
 def get_recipies(request):
     recipes =  Recipe.objects.all()
     context = {"recipes" : recipes}
     return render(request, "home_page.html", context)
 
+# details View
+def get_recipe(request, recipe_id):
+    recipe = Recipe.objects.get(id=recipe_id)
+    context= {
+        'recipe':{
+            'food_name' :recipe.food_name ,
+            'recipe'    :recipe.image ,
+            'profile'   : recipe.ingredient,
+            'category'  : recipe.category,            
+        }
+    }
+    return(request, "recipe_details.html",context)
+
 
 # # list of cato
 def get_category(request):
     category =  Category.objects.all()
-    test = Category.objects.get(id =8)
-    # print(test.ingredient.is_value)
     context = {"category" : category}
     return render(request, "category_list_page.html", context)
 
 
-# ???????#
-# Create Recipe:    ## not working
+
+# Create Recipe:   
 def create_recipe(request):
     
     form =RecipeForm()
@@ -79,7 +104,8 @@ def create_recipe(request):
         form = RecipeForm(request.POST, request.FILES)
         if form.is_valid():
             recipe = form.save(commit= False)
-            recipe.profile = request.user
+            print(dir())
+            recipe.profile = request.user.profile   
             recipe.save()
             return redirect('get_recipies')
         
@@ -92,9 +118,10 @@ def create_recipe(request):
 
 # Update Recipe
 def update_recipe(request, recipe_id):
+    
     recipe = Recipe.objects.get(id = recipe_id)
-    print("recipe: ",recipe)
     form = RecipeForm(instance= recipe)
+    
     if request.method == "POST":
         form =RecipeForm(request.POST, request.FILES,instance= recipe)
         if form.is_valid():

@@ -1,7 +1,4 @@
-from asyncio.windows_events import NULL
-from email.mime import image
-from pyexpat import model
-from unicodedata import category
+
 from django.db import models
 
 

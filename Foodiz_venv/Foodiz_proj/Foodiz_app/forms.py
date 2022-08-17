@@ -1,19 +1,16 @@
-from dataclasses import field
-import profile
-from pyexpat import model
-from tkinter import Widget
+
 from .models import Recipe
 from django import forms
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
-# Recioe Form -- then creat a view
+# Recipe Form 
 class RecipeForm(forms.ModelForm):
     class Meta:
         model = Recipe
         fields = ['food_name', 'recipe', 'image', 'category','ingredient']
 
-        
+# Register Form  
 class RegisterForm(forms.ModelForm):
     class Meta:
         model = User
@@ -22,8 +19,10 @@ class RegisterForm(forms.ModelForm):
             "password": forms.PasswordInput(),
         }
 
-
+# Login Form  
 class LoginForm(forms.Form):
     username = forms.CharField(required=True)
-    password = forms.CharField(required=True,)
-    widgets={"password": forms.PasswordInput()}
+    password = forms.CharField(required=True, widget=forms.PasswordInput())
+     ##?##
+    
+    

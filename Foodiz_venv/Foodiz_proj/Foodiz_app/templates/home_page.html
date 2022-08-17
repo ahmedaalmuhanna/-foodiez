@@ -5,32 +5,75 @@
 
 {%block title%} My Recipe{%endblock title%}
 {%block content%}
-test
+<h1> Hello world </h1>
+
+
+
+
+<a>
+    <div class="container">
+        <div class = "row" >
+            {%for recipe in recipes%}
+
+
+            <div class="col-3">
+                
+                
+                    <div class="card" >
+                        {% if recipe.image %}
+                        <div class="text-center">
+                            <img src="{{ recipe.image.url }}" class="img-thumbnail" alt="">
+                          </div>
+                        {% endif %}
+                       
+                       
+                        <p class="card-title">{{recipe.food_name}}</p>
+                    </div>
+            
+
+
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</a>
+
+
+<br> 
+
+
+
+{%comment%}
+
 {%for recipe in recipes%}
 <tr>
     <td>Name : {{recipe.food_name}}</td>
+
     <br>
-    <td>
-        {% if recipe.image %}
-        <img src="{{ recipe.image.url }}" alt="">
-        {% endif %}
+    <td>{% if recipe.image %}
+
+        <img src="{{recipe.image.url}}" class="img-thumbnail" alt="">"
         
-    </td>
+        {% endif %}</td>
     <br>
+
     <td>Recipe : {{recipe.recipe}}</td>
+
     <br>
+
     <td>By: {{recipe.profile}}</td>
+
     <br>
-    <br>
+
     Ingredient:
     <br>
     {% for ing in recipe.ingredient.all %}
-
     <td>{{ing.ingredient_name}}<br></td>
-
     {% endfor %}
-    
+
     <br>
+
     Category: 
     <br>
     {%for index in recipe.category.all %}
@@ -38,12 +81,9 @@ test
     {% endfor %}
 
 
-    <br>
-    <br>
-    <br>
-    <br>
+    
 </tr>
 {% endfor %}
-
+{%endcomment%}
 {%endblock content%}
 

@@ -1,0 +1,46 @@
+{%extends 'base.html'%}
+{%load static%}
+
+
+
+{%block title%} My Recipe{%endblock title%}
+{%block content%}
+
+
+{%for recipe in recipes%}
+<tr>
+    <td>Name : {{recipe.food_name}}</td>
+
+    <br>
+    <td>{% if recipe.image %}<img  src="{{ recipe.image.url }}" alt="" width="50" height="50">{% endif %}</td>
+    <br>
+
+    <td>Recipe : {{recipe.recipe}}</td>
+
+    <br>
+
+    <td>By: {{recipe.profile}}</td>
+
+    <br>
+
+    Ingredient:
+    <br>
+    {% for ing in recipe.ingredient.all %}
+    <td>{{ing.ingredient_name}}<br></td>
+    {% endfor %}
+
+    <br>
+
+    Category: 
+    <br>
+    {%for index in recipe.category.all %}
+    <td>{{index.category_name}}<br></td>
+    {% endfor %}
+
+
+    
+</tr>
+{% endfor %}
+
+{%endblock content%}
+

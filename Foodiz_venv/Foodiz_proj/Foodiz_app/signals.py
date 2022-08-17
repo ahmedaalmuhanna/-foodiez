@@ -10,7 +10,7 @@ from django.conf import settings
 User = get_user_model()
 
 @receiver(post_save, sender = User)
-def creat_or_save_user_profile(sender, created, instance, **kwargs):
+def create_or_save_user_profile(sender, created, instance, **kwargs):
     if created == True:
         Profile.objects.create(user = instance)
     instance.profile.save()
