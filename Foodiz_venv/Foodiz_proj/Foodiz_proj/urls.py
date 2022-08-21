@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from Foodiz_app.views import get_recipies, create_recipe, update_recipe, get_category,get_recipe, register_user, login_user
+from Foodiz_app.views import get_recipies,logout_view, create_recipe, create_category, create_ingredients, update_recipe, get_category,get_recipe, register_user, login_user
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -23,11 +23,14 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("recipe/",get_recipies, name = "get_recipies"),
     path("create_recipe/",create_recipe, name = "create_recipe"),
+    path("create_ingredient/",create_ingredients, name = "create_ingredients"),
+    path("add_category/",create_category, name = "add_category"),
     path("update_recipe/<int:recipe_id>",update_recipe, name = "update_recipe"),
-    path("category_list_page/",get_category, name = "uget_category"),
+    path("category_list_page/",get_category, name = "get_category"),
     path("register/",register_user, name ="register_user"),
     path("login/",login_user, name ="login_user"),
-    path("recipe_details/",login_user, name ="recipe_details"),
+    path("recipe_details/<int:recipe_id>",get_recipe, name ="recipe_details"),
+    path("logout/",logout_view, name ="logout"),
 ]
 
 

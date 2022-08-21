@@ -1,5 +1,5 @@
-{%load static%}
 {%extends 'base.html'%}
+{%load static%}
 
 
 
@@ -7,24 +7,26 @@
 {%block title%} Category & Ingredient{%endblock title%}
 {%block content%}
 
+  
+<h4 style="text-align :center;">
+  Category & Ingredient
+</h4>
 {%for cate in category%}
-<tr>
-
-    <td>Name : {{cate.category_name}}</td>
-    <br>
-
+<div class="card" >
+  <div class="card-body">
+    <h5 class="card-title">{{cate.category_name}}</h5>
     {% for ing in cate.ingredient.all %}
+    <h6 class="card-subtitle mb-2 text-muted"><li>{{ing.ingredient_name}}</li></h6>
     
-    <td>{{ing.ingredient_name}}<br></td>
 
     {% endfor %}
-    
-    <br>
-    <br>
-    <br>
-    
-
-</tr>
+  </div>
+</div>
 {% endfor %}
-test
+
+
+</div>
+
+
+
 {%endblock content%}

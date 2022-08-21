@@ -2,17 +2,40 @@
 
 
 {%extends 'base.html' %}
+{%load bootstrap5%}
 {% load crispy_forms_tags %} 
 
 {%block title%}Register Page{%endblock title%}
 {%block content%}
 
+<div class="container mt-5 col-3 mx-auto " >  
+      <div class="register">
+        <div class="d-grid gap-2 col-6 mx-auto">
+            <div class="container">
+                <h1>
+                    SignUp!
+                </h1> 
+            </div>
 
-<form action="{% url 'register_user' %}" method ="POST">
+          </div>
 
-{% csrf_token%}
-{{form|crispy}}
+    <form action="{% url 'register_user' %}" method ="POST">
 
-<input type="submit" value="Register"/>
+        {% csrf_token%}
+        {%bootstrap_form form%}
+
+        <div class="d-grid gap-2 col-4 mx-auto ">
+            <div class="btn_signup" style="align-items:center;">
+                <input type="submit"  value="SignUp"/>
+            </div>
+          </div>
+    </form>
+    </div>
+</div>
+
+
+
+
+
 
 {%endblock content%}

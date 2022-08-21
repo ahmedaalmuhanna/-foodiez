@@ -2,8 +2,10 @@
 
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
-from .forms import RecipeForm, RegisterForm, LoginForm
-from .models import  Recipe, Ingredient, Category, Profile
+from .forms import RecipeForm, RegisterForm, LoginForm, IngredientForm, CategoryForm
+from .models import  Recipe, Category
+# from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
+
 
 
 
@@ -46,7 +48,7 @@ def register_user(request):
             user.save()
             
             login(request,user)
-            return redirect('login_user')
+            return redirect('get_recipies')
     context ={
         "form" : form
     }
@@ -57,14 +59,6 @@ def register_user(request):
 
 ############### Recipies ###############
 
-#Creat Category
-def creat_category(request):
-    pass
-
-
-#Creat Ingredients
-def creat_ingredients(request):
-    pass
 
 
 # list Views
@@ -75,30 +69,67 @@ def get_recipies(request):
 
 # details View
 def get_recipe(request, recipe_id):
+
     recipe = Recipe.objects.get(id=recipe_id)
+
     context= {
         'recipe':{
             'food_name' :recipe.food_name ,
-            'recipe'    :recipe.image ,
-            'profile'   : recipe.ingredient,
-            'category'  : recipe.category,            
+            'profile'   : recipe.profile ,
+            'image'     : recipe.image,
+            'recipe'    :recipe.recipe ,
+            'ingredient': recipe.ingredient,
+            'category'  : recipe.category,                       
         }
     }
-    return(request, "recipe_details.html",context)
+    return render(request, "recipe_details.html",context)
 
 
-# # list of cato
+# list of cato
 def get_category(request):
     category =  Category.objects.all()
     context = {"category" : category}
     return render(request, "category_list_page.html", context)
 
 
+#Creat Category
+def create_category(request):
+    form = CategoryForm()
+    if request.method =="POST":
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            category = form. save(commit=False)
+            category.save()
+            return redirect('add_category')
+    context = {
+        "form" : form
+    }
+    return render(request, 'add_category.html', context)
+
+# Creat Ingredients
+def create_ingredients(request):
+    form =IngredientForm()
+
+    if request.method == "POST":
+        form = IngredientForm(request.POST)
+        if form.is_valid():
+            ingredient = form.save(commit= False)
+            ingredient.save()
+            return redirect('create_ingredients')
+        
+    context = {
+        "form" : form
+    }
+    
+    return render(request,'add_ingredient.html', context)
+
 
 # Create Recipe:   
 def create_recipe(request):
     
     form =RecipeForm()
+    form2 = IngredientForm()
+    form3 = CategoryForm()
     
     if request.method == "POST":
         form = RecipeForm(request.POST, request.FILES)
@@ -110,18 +141,21 @@ def create_recipe(request):
             return redirect('get_recipies')
         
     context = {
-        "form" : form
+        "form" : form,
+        "form2" : form2,
+        "form3" : form3
     }
     
     return render(request,'create_recipe.html', context)
 
 
 # Update Recipe
-def update_recipe(request, recipe_id):
+def update_recipe(request, recipe_id ):
     
+        
     recipe = Recipe.objects.get(id = recipe_id)
     form = RecipeForm(instance= recipe)
-    
+
     if request.method == "POST":
         form =RecipeForm(request.POST, request.FILES,instance= recipe)
         if form.is_valid():
@@ -131,5 +165,6 @@ def update_recipe(request, recipe_id):
         "form" : form,
         "recipe" : recipe
     }
+    
     
     return render(request, "Update_recipe.html", context)

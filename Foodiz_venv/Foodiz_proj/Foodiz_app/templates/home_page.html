@@ -1,89 +1,36 @@
 {%extends 'base.html'%}
 {%load static%}
-
-
-
 {%block title%} My Recipe{%endblock title%}
 {%block content%}
-<h1> Hello world </h1>
 
+{% if user.is_authenticated %} 
 
-
-
-<a>
-    <div class="container">
-        <div class = "row" >
-            {%for recipe in recipes%}
-
-
-            <div class="col-3">
-                
-                
-                    <div class="card" >
-                        {% if recipe.image %}
-                        <div class="text-center">
-                            <img src="{{ recipe.image.url }}" class="img-thumbnail" alt="">
-                          </div>
-                        {% endif %}
-                       
-                       
-                        <p class="card-title">{{recipe.food_name}}</p>
-                    </div>
-            
-
-
-            </div>
-            {% endfor %}
-        </div>
+<div class="container">
+    <div class = "row" >
+        {%for recipe in recipes%}
+        <div class="col-3">
+                <div class="card" >
+                    <a href="{%url 'recipe_details' recipe_id=recipe.id %}">
+                    {% if recipe.image %}
+                        <img src="{{ recipe.image.url }}" class="img-thumbnail" alt="">
+                    </a>
+                    {% endif %}
+                    <a href="{%url 'recipe_details' recipe_id=recipe.id %}">
+                    <p class="card-title"><b>{{recipe.food_name}}</b></p>
+                </a>
+                    <p class="card-title"><b>{{recipe.profile}}</b></p>
+                {% if   user.username == recipe.profile.user.username %}
+                <a style="text-align: center;" href="{%url 'update_recipe' recipe_id=recipe.id %}">
+                        <i class="material-icons">
+                            border_color
+                        </i>
+                    </a>
+                    {% endif %}
+                </div>
+                </div>
+        {% endfor %}
     </div>
-
-</a>
-
-
+</div>
 <br> 
-
-
-
-{%comment%}
-
-{%for recipe in recipes%}
-<tr>
-    <td>Name : {{recipe.food_name}}</td>
-
-    <br>
-    <td>{% if recipe.image %}
-
-        <img src="{{recipe.image.url}}" class="img-thumbnail" alt="">"
-        
-        {% endif %}</td>
-    <br>
-
-    <td>Recipe : {{recipe.recipe}}</td>
-
-    <br>
-
-    <td>By: {{recipe.profile}}</td>
-
-    <br>
-
-    Ingredient:
-    <br>
-    {% for ing in recipe.ingredient.all %}
-    <td>{{ing.ingredient_name}}<br></td>
-    {% endfor %}
-
-    <br>
-
-    Category: 
-    <br>
-    {%for index in recipe.category.all %}
-    <td>{{index.category_name}}<br></td>
-    {% endfor %}
-
-
-    
-</tr>
-{% endfor %}
-{%endcomment%}
+{% endif %}
 {%endblock content%}
-

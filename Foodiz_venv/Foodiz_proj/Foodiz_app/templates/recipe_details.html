@@ -2,45 +2,93 @@
 {%load static%}
 
 
-
-{%block title%} My Recipe{%endblock title%}
+{%block title%}Details Page{%endblock title%}
 {%block content%}
 
 
-{%for recipe in recipes%}
-<tr>
-    <td>Name : {{recipe.food_name}}</td>
 
-    <br>
-    <td>{% if recipe.image %}<img  src="{{ recipe.image.url }}" alt="" width="50" height="50">{% endif %}</td>
-    <br>
 
-    <td>Recipe : {{recipe.recipe}}</td>
 
-    <br>
 
-    <td>By: {{recipe.profile}}</td>
+    {% if recipe.image %}
 
-    <br>
 
-    Ingredient:
-    <br>
-    {% for ing in recipe.ingredient.all %}
-    <td>{{ing.ingredient_name}}<br></td>
-    {% endfor %}
+    <div class="card" style="width: 20rem; left: 500px;">
+        <img src="{{ recipe.image.url }}" class="card-img-top" alt="...">
+      </div>
+<div class="container">
 
-    <br>
+</div>
+        
+    {% endif %}
 
-    Category: 
-    <br>
+
+
+    <div class="card">
+        <div class="card-header">
+            {{recipe.food_name}}
+        </div>
+
+        <div class="card-body">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <td >
+                        Ingredient
+                    </td>
+                </h5>
+    
+                <ul class="list-group list-group-flush">
+                    {% for ing in recipe.ingredient.all %}
+                    <li>{{ing.ingredient_name}}</li>
+                    {% endfor %}
+                </ul>
+    
+            </div> 
+        </div>
+
+            <div class="card-body">
+          <h5 class="card-title">
+
+                Recipe
+
+        </h5>
+
+          <p class="card-text">
+                 {{recipe.recipe}}
+          </p>
+        </div> 
+
+
+
+        
+      </div>
+
+          </ul>
+      </div>
+
+        Category:
+    </div> 
     {%for index in recipe.category.all %}
-    <td>{{index.category_name}}<br></td>
+    <li ><a href="#">{{index.category_name}}</a></td></li>
     {% endfor %}
+    By:
+    <a href="#" class="card-link">{{recipe.profile}}</a>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    
+
+    
+    
 
 
     
-</tr>
-{% endfor %}
+
+    
 
 {%endblock content%}
-

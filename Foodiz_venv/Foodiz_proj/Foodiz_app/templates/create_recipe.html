@@ -3,18 +3,35 @@
 {%extends 'base.html' %}
 {% load crispy_forms_tags %} 
 
-
+{%load bootstrap5%}
 {%block title%}Create Recipe{%endblock title%}
 
 {%block content%}
+<!-- 
+<div class="container mt-5 " >
 
 
+    <form class="fstyle" action="{% url 'create_recipe' %}" method="POST" enctype="multipart/form-data" >
 
+        {% csrf_token%}
 
-<form action="{% url 'create_recipe' %}" method="POST" enctype="multipart/form-data" >
-{% csrf_token%}
-{{form|crispy}}
+        {{form2 | crispy}}
+        <input type="submit" value="Add"/>
+    </form>
+ -->
 
-<input type="submit" value="Create Recipe"/>
-</form>
+    <form class="fstyle" action="{% url 'create_recipe' %}" method="POST" enctype="multipart/form-data" >
+
+        {% csrf_token%}
+
+        {{form | crispy}}
+
+        
+        
+        
+        <input type="submit" value="Create Recipe"/>
+    </form>
+
+</div>
+
 {%endblock content%}

@@ -4,15 +4,43 @@
 {%extends 'base.html' %}
 {% load crispy_forms_tags %} 
 
-{%block title%}Register Page{%endblock title%}
+{%load bootstrap5%}
+{%block title%}Signin Page{%endblock title%}
 {%block content%}
 
+<div class="container mt-5 col-3 mx-auto " >  
+    <div class="register">
+     
+  <form action="{% url 'login_user' %}" method ="POST">
+    <div class="d-grid gap-2 col-6 mx-auto">
+        <div class="container">
+            <h1>
+                Login
+            </h1> 
+        </div>
 
-<form action="{% url 'login_user' %}" method ="POST">
+      </div>
 
-{% csrf_token%}
-{{form|crispy}}
 
-<input type="submit" value="Login"/>
+      {% csrf_token%}
+      {%bootstrap_form form%}
+
+      <div class="d-grid gap-2 col-4 mx-auto ">
+          <div class="btn_signup" style="align-items:center;">
+              <input type="submit"  value="Login" style=" color: #090909;
+              padding: 0.7em 1.7em;
+              font-size: 18px;
+              border-radius: 0.5em;
+              background: #3f82ff;
+              border: 1px solid #e8e8e8;
+              transition: all .3s;
+              box-shadow: 6px 6px 12px #c5c5c5,
+                          -6px -6px 12px #ffffff;"/>
+          </div>
+        </div>
+  </form>
+  </div>
+</div> 
+
 
 {%endblock content%}
